@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe para criar dados de teste
+ * Classe para criar dados de sócio torcedor para os teste
  *
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */

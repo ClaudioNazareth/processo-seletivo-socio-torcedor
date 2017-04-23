@@ -51,21 +51,20 @@ na questão 1.
 
 - Porta da aplicação :**9080**
 
-- Para iniciar a aplicação execute : --> gradle bootRun 
+- Para iniciar a aplicação execute : --> **gradle bootRun** 
 
-- Para ver a documentação das APIS inclusive os exemplos usando curl veja --> /documentacao/index.html (ex: http://localhost:9080/documentacao/index.html )
-    -  Para documentar a API usei o swagger caso não conheça o Swagger veja : --> http://swagger.io/ 
+- Para ver a **documentação** das APIS inclusive os exemplos usando **curl** veja --> **/documentacao/index.html** (ex: http://localhost:9080/documentacao/index.html )
+    -  Para documentar a API usei o **Swagger** caso não conheça o Swagger veja : --> http://swagger.io/ 
     
-- A aplicação contém um banco de dados MongoDB imbutido que é inicializado junto com aplicação    
+- A aplicação contém um banco de dados **MongoDB** imbutido que é inicializado junto com aplicação    
     - Porta para acessar o MongoDB: **54321**
+    
 - Para log veja o arquivo sociotorcedor.log criado na raiz da aplicação.
 
 - Para os recursos expostos eu usei os seguinte:
-    - 200 OK - para GET requests.
-    - 201 Created - para POST.
-    - 204 No Content - para PUT, PATCH, e DELETE requests.
-    - Usei alguns principios de HETEOAS para a API na qual cada recurso tem o **self link** e para criação de novos recursos 
-      é retornado **no header o link para o recurso criado**.
+    - **200 OK** - para GET requests.
+    - **201** Created - para POST.
+    - **204** No Content - para PUT, PATCH, e DELETE requests.
 
 - Java code coverage :      
 

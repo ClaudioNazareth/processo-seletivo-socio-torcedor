@@ -24,10 +24,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
-
 import java.util.List;
-
-
 
 /**
  *  Para documentação das apis favor ver /documentacao/index.html (Swegger ui)
@@ -36,7 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/socios")
 @Api(value = "Sócio Torcedor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE,
-        tags = {"Endpoints dos Sócio Torcedor"}, description = "Lida com todas as requisções de Sócio Torcedor", basePath = "/api/v1/socios")
+        tags = {"Endpoints do Sócio Torcedor"}, description = "Lida com todas as requisções da API Rest de sócio torcedor", basePath = "/api/v1/socios")
 public class SocioTorcedorController {
 
     private static final Logger logger = LoggerFactory.getLogger(SocioTorcedorController.class);
@@ -49,9 +46,10 @@ public class SocioTorcedorController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
     @HystrixCommand(fallbackMethod = "retornaStatusCreated")
-    @ApiOperation(value = "Cria um novo Sócio Torcedor com base nos parametros passados",
-            notes = "Cria um novo Sócio Torcedor e caso a o serviço de campanhas esteja ativo retorna a lista de camapnhas " +
-                    "associada o time do coração, caso contrário retorna criado",
+    @ApiOperation(value = "Cria um novo sócio torcedor com base nos parametros passados",
+            notes = "Cria um novo sócio torcedor e retorna a lista de campanhas associadas ao time do torcedor" +
+                    ",caso o serviço de campanhas esteja indisponível o serviço cria o sócio torcedor e retorna o status " +
+                    "201 criado",
             response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created"),
@@ -76,14 +74,14 @@ public class SocioTorcedorController {
 
         }catch (DuplicateKeyException ex){
             if(logger.isDebugEnabled()){
-                logger.debug("Sócio Torcedor com e-mail: {} ja cadastrado", socioTorcedorResource.getEmail());
+                logger.debug("Sócio Torcedor com e-mail: {} já cadastrado", socioTorcedorResource.getEmail());
             }
             throw new SocioTorcedorJaCadastradoException();
         }
     }
 
     /**
-     * Método de Fallback que será chamado pelo Hystrix quando o serviço de Campanhas estiver indisponível
+     * Método de fallback que será chamado pelo Hystrix quando o serviço de campanhas estiver indisponível
      * @param socioTorcedorResource
      * @return
      */
@@ -94,7 +92,7 @@ public class SocioTorcedorController {
             final SocioTorcedor socioTorcedor = socioTorcedorService.cadastrarSocioTorcedor(socioTorcedorResource.getNomeCompleto(), socioTorcedorResource.getEmail(),
                     socioTorcedorResource.getDataNascimento(), socioTorcedorResource.getTimeCoracao());
             if(logger.isDebugEnabled()){
-                logger.debug("Sócio Torcedor : {} cadastrado com sucesso", socioTorcedor);
+                logger.debug("Sócio torcedor : {} cadastrado com sucesso", socioTorcedor);
                 logger.debug("Nao foi possível conectar-se com o servidor de campanhas", socioTorcedor);
             }
 
@@ -102,19 +100,15 @@ public class SocioTorcedorController {
 
         }catch (DuplicateKeyException ex){
             if(logger.isDebugEnabled()){
-                logger.debug("Sócio Torcedor com e-amil: {} ja cadastrado", socioTorcedorResource.getEmail());
+                logger.debug("Sócio torcedor com e-amil: {} já cadastrado", socioTorcedorResource.getEmail());
             }
             throw new SocioTorcedorJaCadastradoException();
         }
-
-
-
-
     }
 
    /*
-   * Os métodos abaixo capturam a eexecção e retornam o Status e messagem de erro de acordo com o tipo de Exception
-   */
+    * Os métodos abaixo capturam a exceção e retornam o tatus e menssagem de erro de acordo com o tipo da exceção
+    */
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(SocioTorcedorJaCadastradoException.class)
@@ -130,11 +124,6 @@ public class SocioTorcedorController {
         return new ErrorInfo(ServletUriComponentsBuilder.fromCurrentRequest().path("").toUriString() , ex);
     }
 
-    /**
-     * Retorna os erros de validação para o chamador
-     * @param ex
-     * @return
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody ErrorInfo
@@ -142,11 +131,6 @@ public class SocioTorcedorController {
         return new ErrorInfo(ServletUriComponentsBuilder.fromCurrentRequest().path("").toUriString() ,ex);
     }
 
-    /**
-     * Retorna os erros de validação para o chamador
-     * @param ex
-     * @return
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody ErrorInfo

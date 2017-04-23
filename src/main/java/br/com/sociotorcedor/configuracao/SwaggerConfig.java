@@ -9,7 +9,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * Configura a aplicação para automaticamente mapear todos os endpoints Rest
+ * Configura a aplicação para automaticamente mapear todos os endpoints Rest.
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */
 @Configuration

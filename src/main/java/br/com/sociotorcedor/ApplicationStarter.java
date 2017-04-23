@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
+ * Classe para configuração dos frameworks do Spring e inicializar a aplicação
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */
 

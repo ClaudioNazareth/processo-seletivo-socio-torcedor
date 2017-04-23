@@ -15,11 +15,11 @@ import java.time.LocalDate;
 
 
 /**
- * Representa os dados da Campanha que devem ser recebidos e retornados pela API Rest de Socio Torcedor
+ * Representa os dados da campanha que devem ser recebidos pela API Rest de campanha
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */
 
-@ApiModel(value="CampanhaResource", description="Representa os dados da Campanha que devem ser recebidos e retornados pela API Rest de Socio Torcedor")
+@ApiModel(value="CampanhaResource", description="Representa os dados da campanha que devem ser recebidos pela API Rest de campanha")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CampanhaResource extends ResourceSupport {
 

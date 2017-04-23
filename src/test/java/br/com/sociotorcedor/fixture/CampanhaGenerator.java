@@ -1,16 +1,12 @@
 package br.com.sociotorcedor.fixture;
 
-
-
 import br.com.sociotorcedor.rest.domain.CampanhaResource;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Classe para criar dados de teste
+ * Classe para criar dados de campanhas para os teste
  *
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */

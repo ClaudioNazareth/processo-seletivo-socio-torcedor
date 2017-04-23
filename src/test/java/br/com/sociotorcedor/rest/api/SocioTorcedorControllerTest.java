@@ -19,16 +19,14 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.given;
 
 /**
- * Teste para validar  a API Rest de SocioTorcedor
+ * Classe de teste para validar a API Rest de SocioTorcedor
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */
 
@@ -83,7 +81,7 @@ public class SocioTorcedorControllerTest {
         socioTorcedorRepository.save(SocioTorcedorGenerator.getSocioTorcedores());
         assertThatExceptionOfType(SocioTorcedorJaCadastradoException.class)
                 .isThrownBy(() ->  socioTorcedorController.cadastrarSocioTorcedor(SocioTorcedorGenerator.criaSocioTorcedorResource()))
-                .withMessageContaining("Usário já cadastrado");
+                .withMessageContaining("Usuário já cadastrado");
 
     }
 

@@ -29,7 +29,7 @@ public class SocioTorcedor {
 
     @Indexed
     @Size(min=5, max=100, message="Nome tem capacidade de 5 a 100 caracteres.")
-    @NotNull(message="Nome do Sócio Torcedor é obrigatório!")
+    @NotNull(message="Nome do sócio torcedor é obrigatório!")
     @Field(value = "nomeCompleto")
     private String nomeCompleto;
 

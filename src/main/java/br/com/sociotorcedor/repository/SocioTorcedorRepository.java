@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * Contrato com as operações de persistência sob o document SocioTorcedor
+ * Contrato com as operações de persistência sob o documento sociotorcedor
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */
 

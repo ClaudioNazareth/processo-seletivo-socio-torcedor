@@ -18,22 +18,22 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * Representa os dados do Sócio Torcedor que devem ser recebidos e retornados pela API Rest de Socio Torcedor
+ * Representa os dados do sócio torcedor que devem ser recebidos e retornados pela API Rest de sócio torcedor
  * @author : Claudio Nazareth  chtnazareth@gmail.com
  */
-@ApiModel(value="SocioTorcedorResource", description="Representa os dados do Sócio Torcedor que devem ser recebidos e retornados pela API Rest de Socio Torcedor")
+@ApiModel(value="SocioTorcedorResource", description="Representa os dados do sócio torcedor que devem ser recebidos e retornados pela API Rest de sócio torcedor")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SocioTorcedorResource {
 
-    @Size(min=5, max=100, message="Nome tem capacidade de 5 a 100 caracteres.")
-    @NotNull(message="Nome do Sócio Torcedor é obrigatório!")
+    @Size(min=5, max=100, message="O nome completo tem capacidade de 5 a 100 caracteres.")
+    @NotNull(message="O nome completo do sócio torcedor é obrigatório!")
     @ApiModelProperty(value = "Nome completo do Sócio Torcedor", dataType = "string", required = true)
     private String nomeCompleto;
 
     @Size(min=5, max=150, message="E-mail tem capacidade de 5 a 150 caracteres.")
     @NotNull(message="E-mail é obrigatório!")
     @Email(message = "O e-mail esta com formato inválido")
-    @ApiModelProperty(value = "E-mail do Sócio Torcedor, usado como autenticação no cadastro", dataType = "string", required = true)
+    @ApiModelProperty(value = "E-mail do Sócio Torcedor", dataType = "string", required = true)
     private String email;
 
     @NotNull(message="Data de nascimento é obrigatório!")
@@ -43,7 +43,7 @@ public class SocioTorcedorResource {
     private LocalDate dataNascimento;
 
     @Size(min=5, max=100, message="Time do coração tem a capacidade de 5 a 100 caracteres.")
-    @NotNull(message="A identifição do time é obrigatório!")
+    @NotNull(message="A identifição do time do coração é obrigatório!")
     @ApiModelProperty(value = "Identificação do time do coração do Sócio Torcedor", dataType = "string", required = true)
     private String timeCoracao;
 
