@@ -76,7 +76,7 @@ public class SocioTorcedorController {
 
         }catch (DuplicateKeyException ex){
             if(logger.isDebugEnabled()){
-                logger.debug("Sócio Torcedor com e-amil: {} ja cadastrado", socioTorcedorResource.getEmail());
+                logger.debug("Sócio Torcedor com e-mail: {} ja cadastrado", socioTorcedorResource.getEmail());
             }
             throw new SocioTorcedorJaCadastradoException();
         }
