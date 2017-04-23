@@ -1,0 +1,87 @@
+************************************************************************************************************************
+
+************************************************************************************************************************
+Juntamente com o Código, deve-se documentar a estratégia utilizada para a criação da aplicação, a arquitetura utilizada
+e os padrões. A documentação pode ser feita via GIT/Bitbucket;
+
+Para o projeto optei por utilizar Spring Boot no qual se tornou o padrão de facto para projetos Java, pelas facilidas e
+integrações oferecidas e pelo fato de vir com Tomcat embarcado.
+
+Para persistencia optei por utilizar como banco de dados o MongoDB pela flexibilidade , desempenho e similidade(BSON -
+JSON) com os com o Formato Json que será trafegado nas APIS.
+Também optei por utilizar Spring Data Mongo por abstrair e facilitar toda a parte dos Repositórios e servir como ponto de
+partida para os comandos de CRUD de persistencia de dados. Já ofere algumas interfaces basicas como as de busca e inserção.
+
+Para criar os serviços REST optei pelo Spring Rest pela facilidade e integração com Spring boot ao invés de utilizar
+o JAX-RS com JERSEY.
+
+Também utilizei o Spring Cloud(Feing e Hystrix) para consumir serviços REST e Circuit Breaker
+
+Para criar a aplicação foi implementado os serviço Rest PUT Para o sócio torcedor.
+
+ Para tal Foram criadas 2 SocioTorcedor e SocioTorcedorResource:
+ - A entidade SocioTorcedor faz a modelagem Java - MongoDB
+ - A entidade SocioTorcedorResource é entidade que vai ser Serializada para ser recebida e entregue pelas interfaces da
+   API em Formato Json. Tende a ser mais Leve e com anotações para documentação Swagger
+
+ O serviço de criação de Sócio Torcedor é acionado pelo método POST em /api/v1/socios , algumas informações sobre:
+ - O conteúdo trafegado entre o cliente e o serviço suporta o formato application/json.
+ - Recebe um um Json com os seguintes campos (nomeCompleto, email, dataNascimento e timeCoracao)
+ - Foi criado um índice unico no MongoDB para E-mail, ao tentar se cadastar um sócio com mais de e-mail, a api retorna
+   "Usuário ja cadastrado"
+ - OS campos de Data devem ter o seguinte formato : "YYYY-MM-DD"
+ - Após a criação do Sócio Torcedor é retornado o Status CREATED 201  e um lista com as campanhas cadastradas para o Time
+ - Caso o serviços de campanhas esteja indisponível, sera retornado somete o status CREATED 201.
+
+
+ Documento - sociotorcedor
+
+------->>>>     Pacotes e componentes:
+
+br.com.sociotorcedor - Pacote default da aplicação
+    - ApplicationStarter - Configurações do Spring Boot e inicializador da aplicação
+
+br.com.sociotorcedor.configuracao - Pacote para classes de configuração da aplicação
+    - SwaggerConfig - Configura o Swagger na aplicação para mapear todos os endpoints Rest
+
+br.com.sociotorcedor.domain - Pacote para as classes  de dominio
+    - SocioTorcedor - Entidade para mapear Classe Java para Documento MongoDB.
+
+br.com.sociotorcedor.exception - Pacote para as classes de exception
+    - SocioTorcedorJaCadastradoException - Exception que será lançada quando se tentar cadastrar um torcedor com e-mail ja cadastrado
+
+br.com.sociotorcedor.repository - Pacote para as classes de repositório da aplicação
+    - SocioTorcedorRepository - Interface para CRUD de Sócio Torcedor
+
+br.com.sociotorcedor.rest.api - Pacote para as Classes de endpoint Rest
+    - SocioTorcedorController - Classe para expor os serviços REST de Sócio Torcedor
+
+br.com.sociotorcedor.rest.domain - Pacote para as classes a serem serializadas nas APIs Rest
+    - CampanhaResource - Classes para receber os dados da campanha da API de campanhas
+    - ErrorInfo - Classe com informações de erros retornada pela API
+    - SocioTorcedorResource - Class para receber os dados do SocioTorcedor na API Rest
+
+br.com.sociotorcedor.service
+    - CampanhaService - Serviço para buscar as campanhas de um determinado Time
+    - SocioTorcedorService -  Interface para encapsular as operaçoes de CRUD e Regras de Sócio Torcedor
+
+
+------->>>> Testes  e Regras:
+
+test/br.com.sociotorcedor.rest.api - Pacote para classes de test das APIs
+    - SocioTorcedorControllerTest - Valida a interface e Regras da API REST de Sócio Torcedor
+     - quandoSocioTorcedorCadastradoDeveRetornarListaDeCampanhas - Valida se o cadastro é efetuado com sucesso e
+          se as campanhas são retornadas pela API.
+
+     - quandoServicoDeCampanhasEstiverForaHystrixDeveChamarCallbackECadastrarSocioERetornarCreated - Valida se quando
+          o serviço de campanhas estiver indisponivel o usuário é cadastrado com sucesso.
+
+     - naoDeveCadastrarDoisUsuariosComMesmoEmail - Valida se ao tentar cadastrar dois usuários com mesmo e-mail a mensagem
+       de "Usuário já cadastrado"  é retornada.
+
+
+
+************************************************************************************************************************
+
+
+************************************************************************************************************************
