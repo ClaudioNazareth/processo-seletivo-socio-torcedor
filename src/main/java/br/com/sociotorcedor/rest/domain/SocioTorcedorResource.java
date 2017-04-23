@@ -42,6 +42,13 @@ public class SocioTorcedorResource {
     SocioTorcedorResource() {
     }
 
+    public SocioTorcedorResource(String nomeCompleto, String email, LocalDate dataNascimento, String timeCoracao) {
+        this.nomeCompleto = nomeCompleto;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
+        this.timeCoracao = timeCoracao;
+    }
+
     public String getNomeCompleto() {
         return nomeCompleto;
     }
