@@ -8,6 +8,10 @@ import br.com.sociotorcedor.rest.domain.SocioTorcedorResource;
 import br.com.sociotorcedor.service.CampanhaService;
 import br.com.sociotorcedor.service.SocioTorcedorService;
 import feign.RetryableException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,8 @@ import static org.springframework.http.ResponseEntity.created;
  */
 @RestController
 @RequestMapping("/v1/socios")
+@Api(value = "Sócio Torcedor", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE,
+        tags = {"Endpoints dos Sócio Torcedor"}, description = "Lida com todas as requisções de Sócio Torcedor", basePath = "/api/v1/socios")
 public class SocioTorcedorController {
 
     private static final Logger logger = LoggerFactory.getLogger(SocioTorcedorController.class);
@@ -42,7 +48,16 @@ public class SocioTorcedorController {
     @Autowired
     private CampanhaService campanhaService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Cria um novo Sócio Torcedor com base nos parametros passados",
+            notes = "Cria um novo Sócio Torcedor e caso a o serviço de campanhas esteja ativo retorna a lista de camapnhas " +
+                    "associada o time do coração, caso contrário retorna o link do novo  Sócio Torcidor criado",
+            response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400 , message = "Conflict"),
+            @ApiResponse(code = 409 , message = "Bad Request"),
+            @ApiResponse(code = 500 , message = "Internal Server Error")})
     public ResponseEntity<List<CampanhaResource>> cadastrarSocioTorcedor(@Valid @RequestBody SocioTorcedorResource socioTorcedorResource){
 
         try {
