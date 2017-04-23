@@ -43,6 +43,9 @@ _O que se espera para esse exercício - dicas e direcionamentos:_
 
 ## Informações sobre o projeto
 
+- Para esta questão(2) foi implementado somente o method PUT, conforme solicitado, o CRUD completo foi implementado
+na questão 1.
+
 - O caminho **base** para as os endpoins é : /api/v1
   - Para esta aplicação temos :  **/api/v1/socios** 
 
@@ -64,8 +67,7 @@ _O que se espera para esse exercício - dicas e direcionamentos:_
     - Usei alguns principios de HETEOAS para a API na qual cada recurso tem o **self link** e para criação de novos recursos 
       é retornado **no header o link para o recurso criado**.
 
-- Java code coverage : **100 % nos pacotes de Rest Controller, Domain e Service**  
-                     : 75% das classes | 74% dos Metodos e 74% das linhas de código       
+- Java code coverage :      
 
 ## Tecnologias e frameworks utilizados
 
