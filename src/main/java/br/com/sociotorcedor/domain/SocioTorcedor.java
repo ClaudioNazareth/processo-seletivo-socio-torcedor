@@ -63,6 +63,10 @@ public class SocioTorcedor {
         this.timeCoracao = timeCoracao;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getNomeCompleto() {
         return nomeCompleto;
     }

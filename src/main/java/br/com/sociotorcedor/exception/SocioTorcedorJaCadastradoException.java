@@ -7,6 +7,6 @@ package br.com.sociotorcedor.exception;
 public class SocioTorcedorJaCadastradoException extends RuntimeException  {
 
     public SocioTorcedorJaCadastradoException() {
-        super("Uusário ja cadastrado");
+        super("Usário ja cadastrado");
     }
 }

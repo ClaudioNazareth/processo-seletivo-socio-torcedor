@@ -1,4 +1,4 @@
-# Projeto Cadastro de Campanhas
+# Projeto Cadastro de Sócio Torcedor
 - _Informaçães técnicas sobre o projeto estão após a descrição_
 
 Eu, como usuário, quero me cadastrar informando **meu e-mail e o meu Time do Coração através** de uma API que me permite 
@@ -44,17 +44,18 @@ _O que se espera para esse exercício - dicas e direcionamentos:_
 ## Informações sobre o projeto
 
 - O caminho **base** para as os endpoins é : /api/v1
-  - Para esta aplicação temos :  /api/v1/campanhas e /api/v1/webhook
+  - Para esta aplicação temos :  **/api/v1/socios** 
 
-- Porta da aplicação :8080
+- Porta da aplicação :**9080**
 
 - Para iniciar a aplicação execute : --> gradle bootRun 
 
-- Para ver a documentação das APIS inclusive os exemplos usando curl veja --> /documentacao/index.html (ex: http://localhost:8080/documentacao/index.html )
+- Para ver a documentação das APIS inclusive os exemplos usando curl veja --> /documentacao/index.html (ex: http://localhost:9080/documentacao/index.html )
     -  Para documentar a API usei o swagger caso não conheça o Swagger veja : --> http://swagger.io/ 
     
 - A aplicação contém um banco de dados MongoDB imbutido que é inicializado junto com aplicação    
-- Para log veja o arquivo campanha.log criado na raiz da aplicação.
+    - Porta para acessar o MongoDB: **54321**
+- Para log veja o arquivo sociotorcedor.log criado na raiz da aplicação.
 
 - Para os recursos expostos eu usei os seguinte:
     - 200 OK - para GET requests.
@@ -77,6 +78,9 @@ _O que se espera para esse exercício - dicas e direcionamentos:_
 - **Spring HATEOAS** - _Spring HATEOAS fornece algumas APIs para facilitar a criação de representações REST que seguem 
     o princípio HATEOAS quando se trabalha com Spring e especialmente Spring MVC. O problema central que ele tenta 
     abordar é a criação de links e a montagem de representações._ 
+
+- **Spring Cloud Feign** -  _Feign é um projeto que faz parte do grande guarda-chuvas de soluções do Spring Cloud e ele 
+   basicamente é utilizado para integração com serviços Rest._  
     
 - **MongoDB** - _O MongoDB é um banco de dados de documentos de código aberto que fornece alto desempenho, alta disponibilidade 
   e dimensionamento automático. Um registro no MongoDB é um documento, que é uma estrutura de dados composta de pares de campo e valor.
