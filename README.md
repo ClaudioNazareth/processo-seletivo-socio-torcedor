@@ -81,6 +81,9 @@ _O que se espera para esse exercício - dicas e direcionamentos:_
 
 - **Spring Cloud Feign** -  _Feign é um projeto que faz parte do grande guarda-chuvas de soluções do Spring Cloud e ele 
    basicamente é utilizado para integração com serviços Rest._  
+
+- **Spring Cloud Hystrix** -  _O Hystrix implementa o padrão Circuit Breaker, que de forma bem rápida é um failover para
+ chamadas entre micro serviços, ou seja, caso um micro serviço estiver fora do ar um método de fallback é chamado_  
     
 - **MongoDB** - _O MongoDB é um banco de dados de documentos de código aberto que fornece alto desempenho, alta disponibilidade 
   e dimensionamento automático. Um registro no MongoDB é um documento, que é uma estrutura de dados composta de pares de campo e valor.

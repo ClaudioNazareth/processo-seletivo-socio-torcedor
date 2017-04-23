@@ -66,7 +66,7 @@ public class SocioTorcedorControllerTest {
     }
 
     @Test
-    public void quandoServicoDeCampanhasEstiverForaDeveCadastrarSocioETrazerLink() throws Exception {
+    public void quandoServicoDeCampanhasEstiverForaHystrixDeveChamarCallbackECadastrarSocioERetornarCreated() throws Exception {
 
         given(this.campanhaService.getCampanhasByTimeCoracao("TimeDoCoracao"))
                 .willThrow(RetryableException.class);
@@ -76,7 +76,6 @@ public class SocioTorcedorControllerTest {
 
         assertThat(responseEntity).as("O Sócio torcedor deve ser criado com sucesso").isNotNull();
         assertThat(responseEntity.getStatusCode()).as("O Status code deve ser created").isEqualTo(HttpStatus.CREATED);
-        assertThat(responseEntity.getHeaders().get("location")).as("Deve retornar a URL do Socio Torcedor criado").isNotNull();
     }
 
     @Test

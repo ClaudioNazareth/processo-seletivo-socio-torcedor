@@ -7,7 +7,7 @@ import br.com.sociotorcedor.rest.domain.ErrorInfo;
 import br.com.sociotorcedor.rest.domain.SocioTorcedorResource;
 import br.com.sociotorcedor.service.CampanhaService;
 import br.com.sociotorcedor.service.SocioTorcedorService;
-import feign.RetryableException;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,12 +23,11 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
-import java.net.URI;
+
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.created;
+
 
 /**
  *  Para documentação das apis favor ver /documentacao/index.html (Swegger ui)
@@ -49,9 +48,10 @@ public class SocioTorcedorController {
     private CampanhaService campanhaService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE ,produces = MediaType.APPLICATION_JSON_VALUE)
+    @HystrixCommand(fallbackMethod = "retornaStatusCreated")
     @ApiOperation(value = "Cria um novo Sócio Torcedor com base nos parametros passados",
             notes = "Cria um novo Sócio Torcedor e caso a o serviço de campanhas esteja ativo retorna a lista de camapnhas " +
-                    "associada o time do coração, caso contrário retorna o link do novo  Sócio Torcidor criado",
+                    "associada o time do coração, caso contrário retorna criado",
             response = ResponseEntity.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created"),
@@ -61,18 +61,19 @@ public class SocioTorcedorController {
     public ResponseEntity<List<CampanhaResource>> cadastrarSocioTorcedor(@Valid @RequestBody SocioTorcedorResource socioTorcedorResource){
 
         try {
-            final SocioTorcedor socioTorcedor = socioTorcedorService.cadastrarSocioTorcedor(socioTorcedorResource.getNomeCompleto(), socioTorcedorResource.getEmail(),
+
+            final List<CampanhaResource> campanhasByTimeCoracao =
+                    campanhaService.getCampanhasByTimeCoracao(socioTorcedorResource.getTimeCoracao());
+
+            final SocioTorcedor socioTorcedor =
+                    socioTorcedorService.cadastrarSocioTorcedor(socioTorcedorResource.getNomeCompleto(), socioTorcedorResource.getEmail(),
                     socioTorcedorResource.getDataNascimento(), socioTorcedorResource.getTimeCoracao());
             if(logger.isDebugEnabled()){
                 logger.debug("Sócio Torcedor : {} cadastrado com sucesso", socioTorcedor);
             }
-
-            try{
-                return new ResponseEntity<>(campanhaService.getCampanhasByTimeCoracao(socioTorcedor.getTimeCoracao()),
+            return new ResponseEntity<>(campanhasByTimeCoracao,
                         HttpStatus.CREATED);
-            }catch (RetryableException ex){
-                return retornaStatusCreatedELinkDoRecursoCriado(socioTorcedor);
-            }
+
         }catch (DuplicateKeyException ex){
             if(logger.isDebugEnabled()){
                 logger.debug("Sócio Torcedor com e-amil: {} ja cadastrado", socioTorcedorResource.getEmail());
@@ -81,15 +82,34 @@ public class SocioTorcedorController {
         }
     }
 
-    private ResponseEntity<List<CampanhaResource>> retornaStatusCreatedELinkDoRecursoCriado(SocioTorcedor socioTorcedor) {
-        if(logger.isDebugEnabled()){
-            logger.debug("Nao foi possível conectar-se com o servidor de campanhas", socioTorcedor);
-        }
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(socioTorcedor.getId()).toUri();
+    /**
+     * Método de Fallback que será chamado pelo Hystrix quando o serviço de Campanhas estiver indisponível
+     * @param socioTorcedorResource
+     * @return
+     */
+    private ResponseEntity<List<CampanhaResource>> retornaStatusCreated(SocioTorcedorResource socioTorcedorResource) {
 
-        return created(location).build();
+        try {
+
+            final SocioTorcedor socioTorcedor = socioTorcedorService.cadastrarSocioTorcedor(socioTorcedorResource.getNomeCompleto(), socioTorcedorResource.getEmail(),
+                    socioTorcedorResource.getDataNascimento(), socioTorcedorResource.getTimeCoracao());
+            if(logger.isDebugEnabled()){
+                logger.debug("Sócio Torcedor : {} cadastrado com sucesso", socioTorcedor);
+                logger.debug("Nao foi possível conectar-se com o servidor de campanhas", socioTorcedor);
+            }
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+
+        }catch (DuplicateKeyException ex){
+            if(logger.isDebugEnabled()){
+                logger.debug("Sócio Torcedor com e-amil: {} ja cadastrado", socioTorcedorResource.getEmail());
+            }
+            throw new SocioTorcedorJaCadastradoException();
+        }
+
+
+
+
     }
 
    /*
