@@ -33,9 +33,9 @@ _O que se espera para esse exercício - dicas e direcionamentos:_
  - Pense em como documentar os cenários desenvolvidos (Testes sempre são uma boa forma de documentar);
  - Ao finalizar o desenvolvimento você deve compartilhar o código pelo Github ou Bitbucket;
  - Fique à vontade para entrar em contato e tirar dúvidas;
- - Juntamente com o Código, deve-se documentar a estratégia utilizada para a criação da aplicação, a arquitetura utilizada e os padrões. A documentação pode ser feita via GIT/Bitbucket e respondido por email com o link.
+ - Juntamente com o Código, deve-se documentar a estratégia utilizada para a criação da aplicação, a arquitetura 
+    utilizada e os padrões. A documentação pode ser feita via GIT/Bitbucket e respondido por email com o link.
  - Em caso de uso do Git/Bitbucket não esqueça de criar o .gitignore.
- - Não utilizar o nome da Netshoes nos projetos ou “packages” da prova;
  - Não precisa ser construído nenhuma tela para os cadastros;
  - **Alguns requisitos não funcionais devem ser previstos:**
     - O Serviço será acessado de forma acentuada, ou seja, a previsão é que o serviço receba 100 requisições por segundo;
